@@ -1,0 +1,25 @@
+{
+  "name": "bonte-gallery",
+  "version": "1.0.0",
+  "description": "A beautiful gallery website for Bonte",
+  "main": "index.html",
+  "scripts": {
+    "start": "serve .",
+    "build": "echo 'Static site - no build needed'",
+    "dev": "serve . -l 3000"
+  },
+  "keywords": [
+    "gallery",
+    "portfolio",
+    "photography",
+    "static-site"
+  ],
+  "author": "MUNEZERO Alpha",
+  "license": "MIT",
+  "devDependencies": {
+    "serve": "^14.2.1"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

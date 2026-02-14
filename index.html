@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en" class="dark-mode"> <!-- Defaulting to dark via HTML class -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bonte's Gallery</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description"
+        content="A beautiful gallery showcasing moments captured for Bonte - A curated collection of memories and photography">
+    <meta name="keywords" content="gallery, photography, moments, memories, Bonte, portfolio">
+    <meta name="author" content="MUNEZERO Alpha">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Bonte's Gallery">
+    <meta property="og:description" content="A small gallery made just for you - A curated collection of memories">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="images/1.png">
+    <meta property="og:image:alt" content="Bonte's Gallery - Nature's Embrace">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Bonte's Gallery">
+    <meta name="twitter:description" content="A small gallery made just for you - A curated collection of memories">
+    <meta name="twitter:image" content="images/1.png">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="images/1.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/1.png">
+    <!-- Importing Poppins font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- CSS Variables & Theming --- */
+        :root {
+            /* DEFAULT (Dark Mode Palette) */
+            --bg-color: #121212;
+            --text-color: #e0e0e0;
+            --accent-color: #a68080;
+            --accent-glow: rgba(166, 128, 128, 0.15);
+            --card-bg: rgba(30, 30, 30, 0.6);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --nav-bg: rgba(18, 18, 18, 0.8);
+            --shadow: 0 15px 40px -10px rgba(0, 0, 0, 0.5);
+            --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        /* Light Mode Override (Applied via JS) */
+        html.light-mode {
+            --bg-color: #fcfbf9;
+            --text-color: #2d2d2d;
+            --accent-color: #d4a5a5;
+            --accent-glow: rgba(212, 165, 165, 0.3);
+            --card-bg: rgba(255, 255, 255, 0.7);
+            --card-border: rgba(255, 255, 255, 0.9);
+            --nav-bg: rgba(255, 255, 255, 0.8);
+            --shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* --- Global Reset & Base Styles --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.5s ease, color 0.5s ease;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Background Subtle Glow */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -20%;
+            right: -10%;
+            width: 60vw;
+            height: 60vw;
+            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+            filter: blur(80px);
+            z-index: -1;
+            pointer-events: none;
+            transition: var(--transition);
+        }
+
+        /* --- Navigation / Theme Toggle --- */
+        .nav-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: flex-end;
+            z-index: 100;
+            background: transparent;
+        }
+
+        .theme-toggle {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            color: var(--text-color);
+            padding: 0.5rem 1rem;
+            border-radius: 30px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.9rem;
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .theme-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            position: relative;
+        }
+
+        .hero-content {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeUp 1s ease forwards 0.3s;
+        }
+
+        h1 {
+            font-size: 4rem;
+            font-weight: 600;
+            letter-spacing: -1px;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--text-color) 0%, var(--accent-color) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            font-size: 1.25rem;
+            font-weight: 300;
+            margin-bottom: 2.5rem;
+            color: var(--text-color);
+            opacity: 0.8;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background-color: var(--text-color);
+            color: var(--bg-color);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 500;
+            transition: var(--transition);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            background-color: var(--accent-color);
+            color: white;
+        }
+
+        /* --- Gallery Section --- */
+        .gallery-section {
+            padding: 6rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .gallery-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            overflow: hidden;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            position: relative;
+            aspect-ratio: 4/5;
+            transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.5s ease;
+            z-index: 1;
+        }
+
+        /* PROFESSIONAL HOVER EFFECTS */
+
+        .gallery-card:hover {
+            transform: translateY(-15px) scale(1.01);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            z-index: 10;
+        }
+
+        .gallery-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 0.5s ease;
+            filter: brightness(0.9);
+        }
+
+        .gallery-card:hover img {
+            transform: scale(1.08);
+            filter: brightness(1.05);
+        }
+
+        .card-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 25px;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.4) 50%, transparent 100%);
+            color: white;
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 0.4s ease 0.1s, transform 0.4s ease 0.1s;
+            pointer-events: none;
+        }
+
+        .gallery-card:hover .card-overlay {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- Message Section --- */
+        .message-section {
+            padding: 6rem 2rem;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .message-card {
+            background: var(--card-bg);
+            padding: 4rem 2rem;
+            border-radius: 20px;
+            border: 1px solid var(--card-border);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: var(--transition);
+        }
+
+        .message-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .message-text {
+            font-size: 1.4rem;
+            font-weight: 300;
+            line-height: 1.8;
+            color: var(--text-color);
+        }
+
+        /* --- Footer --- */
+        footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            font-size: 0.9rem;
+            opacity: 0.6;
+            border-top: 1px solid var(--card-border);
+            background: var(--card-bg);
+        }
+
+        /* --- Modal / Lightbox --- */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.9);
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.show {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            max-width: 90%;
+            max-height: 90vh;
+            border-radius: 8px;
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.6);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+            object-fit: contain;
+        }
+
+        .modal.show .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-caption {
+            position: absolute;
+            bottom: 30px;
+            color: white;
+            text-align: center;
+            width: 100%;
+            padding: 0 20px;
+            font-size: 1.1rem;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 1001;
+            transition: 0.2s;
+            opacity: 0.8;
+        }
+
+        .close-modal:hover {
+            color: var(--accent-color);
+            opacity: 1;
+            transform: rotate(90deg);
+        }
+
+        /* --- Animations --- */
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .message-text {
+                font-size: 1.1rem;
+            }
+
+            .gallery-card:hover {
+                transform: none;
+            }
+
+            .gallery-card:hover img {
+                transform: scale(1.05);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Theme Toggle -->
+    <nav class="nav-container">
+        <button class="theme-toggle" id="themeToggle">
+            <span>☀</span> Light Mode
+        </button>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="hero-content">
+            <h1>Bonte’s Gallery</h1>
+            <p class="subtitle">A small gallery made just for you</p>
+            <a href="#gallery" class="cta-btn">View Gallery</a>
+        </div>
+    </header>
+
+    <!-- Gallery Section -->
+    <main>
+        <section id="gallery" class="gallery-section">
+            <div class="section-header">
+                <h2>Moments Captured</h2>
+                <p style="opacity: 0.7;">A curated collection of memories</p>
+            </div>
+
+            <div class="gallery-grid">
+                <!-- Image 1 -->
+                <div class="gallery-card" onclick="openModal(this)">
+                    <img src="images/1.png" alt="Outdoor grass scene">
+                    <div class="card-overlay">Nature's Embrace</div>
+                </div>
+
+                <!-- Image 2 -->
+                <div class="gallery-card" onclick="openModal(this)">
+                    <img src="images/2.png" alt="Group photo with frame">
+                    <div class="card-overlay">Youth for Change</div>
+                </div>
+
+                <!-- Image 3 -->
+                <div class="gallery-card" onclick="openModal(this)">
+                    <img src="images/3.png" alt="Three people with frame">
+                    <div class="card-overlay">Rwanda Coding Academy</div>
+                </div>
+
+                <!-- Image 4 -->
+                <div class="gallery-card" onclick="openModal(this)">
+                    <img src="images/4.png" alt="Four women indoors">
+                    <div class="card-overlay">Friends at Crestbrook</div>
+                </div>
+
+                <!-- Image 5 -->
+                <div class="gallery-card" onclick="openModal(this)">
+                    <img src="images/5.jpg" alt="Man in classroom">
+                    <div class="card-overlay">Quiet Focus</div>
+                </div>
+
+                <!-- Image 6 -->
+                <div class="gallery-card" onclick="openModal(this)">
+                    <img src="images/6.png" alt="Black and white student photo">
+                    <div class="card-overlay">Timeless Youth</div>
+                </div>
+
+                <!-- Image 7 -->
+                <div class="gallery-card" onclick="openModal(this)">
+                    <img src="images/7.png" alt="Four women social indoors">
+                    <div class="card-overlay">Social Gathering</div>
+                </div>
+
+                <!-- Image 8 -->
+                <div class="gallery-card" onclick="openModal(this)">
+                    <img src="images/IMG_0732.jpeg" alt="Black and white outdoor photo">
+                    <div class="card-overlay">Comrades</div>
+                </div>
+
+                <!-- Image 9 -->
+                <div class="gallery-card" onclick="openModal(this)">
+                    <img src="images/IMG_0747.jpeg" alt="Students in uniform">
+                    <div class="card-overlay">Uniform Day</div>
+                </div>
+
+                <!-- Image 10 -->
+                <div class="gallery-card" onclick="openModal(this)">
+                    <img src="images/IMG_0751.jpeg" alt="Students at campus">
+                    <div class="card-overlay">Campus Life</div>
+                </div>
+
+                <div class="gallery-card" onclick="openModal(this)">
+                    <img src="images/IMG_0785.jpeg" alt="Students at campus">
+                    <div class="card-overlay">Campus Life</div>
+                </div>
+
+                <div class="gallery-card" onclick="openModal(this)">
+                    <img src="images/IMG_0745.jpeg" alt="Students at campus">
+                    <div class="card-overlay">Campus Life</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Message Section -->
+        <section id="message" class="message-section">
+            <div class="message-card" id="msgCard">
+                <p class="message-text">"This is just a small way of saying you are appreciated and valued."</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>Made by MUNEZERO Alpha</p>
+    </footer>
+
+    <!-- Lightbox Modal -->
+    <div id="imageModal" class="modal">
+        <span class="close-modal" onclick="closeModal()">&times;</span>
+        <img class="modal-content" id="modalImg">
+        <div class="modal-caption" id="caption"></div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // --- Dark/Light Mode Toggle (Fixed & Default Dark) ---
+        const toggleBtn = document.getElementById('themeToggle');
+        const htmlElement = document.documentElement;
+
+        // Check for saved user preference
+        // Note: Default is Dark (no class). If 'light' is saved, we add the class.
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'light') {
+            htmlElement.classList.add('light-mode');
+        } else {
+            htmlElement.classList.remove('light-mode'); // Ensure dark is default
+        }
+
+        toggleBtn.addEventListener('click', () => {
+            htmlElement.classList.toggle('light-mode');
+
+            // Save preference
+            if (htmlElement.classList.contains('light-mode')) {
+                localStorage.setItem('theme', 'light');
+            } else {
+                localStorage.setItem('theme', 'dark');
+            }
+        });
+
+        // --- Modal / Lightbox Logic ---
+        const modal = document.getElementById('imageModal');
+        const modalImg = document.getElementById("modalImg");
+        const captionText = document.getElementById("caption");
+
+        function openModal(element) {
+            const img = element.querySelector('img');
+            const overlayText = element.querySelector('.card-overlay').innerText;
+
+            modal.style.display = "flex";
+            setTimeout(() => {
+                modal.classList.add('show');
+            }, 10);
+
+            modalImg.src = img.src;
+            captionText.innerText = overlayText;
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.classList.remove('show');
+            setTimeout(() => {
+                modal.style.display = "none";
+            }, 300);
+            document.body.style.overflow = 'auto';
+        }
+
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        // --- Scroll Animation for Message Section ---
+        const observerOptions = {
+            threshold: 0.2
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        const msgCard = document.getElementById('msgCard');
+        if (msgCard) {
+            observer.observe(msgCard);
+        }
+    </script>
+</body>
+
+</html>
